@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,15 @@ public class uploadService {
         String filepath = fileData.get().getFilePath();
         byte [] images = Files.readAllBytes(new File(filepath).toPath());
         return images;
+    }
+
+    public String deleteFile(Long id){
+        Optional<FileData> fileData = fileRepository.findById(id);
+        fileRepository.deleteById(id);
+        return "File deleted: "+fileData.get().getFilePath();
+    }
+    public List<FileData> list(){
+        List<FileData> fileData = fileRepository.findAll();
+        return fileData;
     }
 }
